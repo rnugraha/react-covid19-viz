@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
+    marginLeft: 240
   },
 }));
 
@@ -45,9 +46,7 @@ function App() {
       <LeftDrawer onSelectCountry={handleOnSelectCountry} />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Container maxWidth="sm">
-          <CasesPerCountry country={selectedCountry}/>
-        </Container>
+        {selectedCountry ? <CasesPerCountry country={selectedCountry}/> : 'Select country'}
       </main>
     </React.Fragment>
   );

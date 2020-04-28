@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-const CountryProfile = () => {
+const CountryProfile = ({country}) => {
     const [countryProfiles, setCountryProfiles] = useState({});
     useEffect(() => {
-        fetch('https://corona.lmao.ninja/v2/countries/cn')
+        if (country) {
+            fetch('https://corona.lmao.ninja/v2/countries/' + country.code)
             .then(res => res.json())
             .then(res => {
                 setCountryProfiles(res)
@@ -15,7 +16,8 @@ const CountryProfile = () => {
                     console.log('Error:', error);
                 }
             )
-    }, [])
+        }
+    }, [country])
 
     return (<React.Fragment>
         <table>

@@ -20,14 +20,19 @@ const formatData = (jsonData) => {
     return result;
 }
 
-const CasesPerCountry = () => {
+const CasesPerCountry = ({country}) => {
     const [timelineData, setTimelineData] = useState(null);
 
     useEffect(() => {
-        fetch('https://corona.lmao.ninja/v2/historical/cn?lastdays=60')
+        if (country) {
+            fetch(`https://corona.lmao.ninja/v2/historical/${country.code}?lastdays=60`)
             .then(res => res.json())
             .then(res => {
-                setTimelineData(formatData(res.timeline));
+                if (!res.message) {
+                    setTimelineData(formatData(res.timeline));
+                } else {
+                    console.log(res.message)
+                }
             },
                 // Note: it's important to handle errors here
                 // instead of a catch() block so that we don't swallow
@@ -36,12 +41,13 @@ const CasesPerCountry = () => {
                     console.log('Error:', error);
                 }
             )
-    }, [])
+        }
+    }, [country])
 
     return (<React.Fragment>
         <CasesChart data={timelineData} />
         <NewCasesChart data={timelineData} />
-        <CountryProfile />
+        <CountryProfile country={country} />
     </React.Fragment>);
 }
 

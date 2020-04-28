@@ -31,7 +31,6 @@ function App() {
 
   const handleOnSelectCountry = (event, value, reason) => {
     setSelectedCountry(value);
-    console.log(value)
   }
 
   return (

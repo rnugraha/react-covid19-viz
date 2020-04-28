@@ -5,6 +5,7 @@ import NewCasesChart from './NewCasesChart';
 import CountryHeader from './CountryHeader';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CountryProfile from './CountryProfile';
 
 
 
@@ -94,6 +95,9 @@ const CasesPerCountry = ({ country }) => {
             </CardContent>
             <CardContent className={classes.content}>
                 <NewCasesChart data={timelineData} />
+            </CardContent>
+            <CardContent>
+                <CountryProfile countryProfiles={countryProfiles} />
             </CardContent>
         </Card>
     </React.Fragment>);

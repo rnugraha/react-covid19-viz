@@ -9,7 +9,7 @@ const NewCasesChart = (props) => {
         <CartesianGrid stroke="#ccc" strokeDasharray="2 1" />
         <XAxis stroke="grey" padding={{ left: 5, right: 2 }} dataKey="date" />
         <YAxis />
-        <Tooltip contentStyle={{ backgroundColor: '#DDD' }} labelStyle={{ color: '#FFF' }} />
+        <Tooltip contentStyle={{ backgroundColor: '#FEFEFE' }} labelStyle={{ color: '#666' }} />
         <Legend />
         <Line dataKey="newCases" stroke="#8884d8" fill="#888999" dot={false}/>
         <Line dataKey="newDeaths" stroke="red" fill="pink" dot={false}/>

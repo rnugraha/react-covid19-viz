@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 import CasesPerCountry from './components/CasesPerCountry';
-import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import LeftDrawer from './components/LeftDrawer';
 import AppBar from '@material-ui/core/AppBar';

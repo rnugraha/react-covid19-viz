@@ -6,8 +6,11 @@ import CountryHeader from './CountryHeader';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CountryProfile from './CountryProfile';
-
-
+import clsx from 'clsx';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,7 +56,12 @@ const CasesPerCountry = ({ country }) => {
     const classes = useStyles();
     const [timelineData, setTimelineData] = useState(null);
     const [countryProfiles, setCountryProfiles] = useState({});
+    const [expanded, setExpanded] = React.useState(false);
 
+    const handleExpandClick = () => {
+      setExpanded(!expanded);
+    };
+  
     useEffect(() => {
         if (country) {
             fetch('https://corona.lmao.ninja/v2/countries/' + country.code)
@@ -67,7 +75,7 @@ const CasesPerCountry = ({ country }) => {
                     (error) => {
                         console.log('Error:', error);
                     }
-                )            
+                )
             fetch(`https://corona.lmao.ninja/v2/historical/${country.code}?lastdays=14`)
                 .then(res => res.json())
                 .then(res => {
@@ -96,9 +104,24 @@ const CasesPerCountry = ({ country }) => {
             <CardContent className={classes.content}>
                 <NewCasesChart data={timelineData} />
             </CardContent>
-            <CardContent>
-                <CountryProfile countryProfiles={countryProfiles} />
-            </CardContent>
+            <CardActions disableSpacing>
+                <IconButton
+                    className={clsx(classes.expand, {
+                        [classes.expandOpen]: expanded,
+                    })}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                >
+                    <ExpandMoreIcon />
+                </IconButton>
+
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <CardContent>
+                    <CountryProfile countryProfiles={countryProfiles} />
+                </CardContent>
+            </Collapse>
         </Card>
     </React.Fragment>);
 }

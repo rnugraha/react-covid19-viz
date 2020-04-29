@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import LeftDrawer from './components/LeftDrawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
@@ -23,13 +24,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const renderPlots = (countries) => {  
+  return countries.length ? countries.map(country => {
+    return (<Grid item xs={4} direction="row" justify="flex-start" alignItems="flex-start"> 
+      <CasesPerCountry country={country} />
+    </Grid>)
+  }) : '';
+}
+
 function App() {
 
   const classes = useStyles();
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountries, setSelectedCountries] = useState([]);
 
   const handleOnSelectCountry = (event, value, reason) => {
-    setSelectedCountry(value);
+    setSelectedCountries(value);
   }
 
   return (
@@ -44,7 +53,9 @@ function App() {
       <LeftDrawer onSelectCountry={handleOnSelectCountry} />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {selectedCountry ? <CasesPerCountry country={selectedCountry}/> : 'Select country'}
+        <Grid container spacing={3}>
+          {renderPlots(selectedCountries)}
+        </Grid>
       </main>
     </React.Fragment>
   );

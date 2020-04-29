@@ -68,6 +68,7 @@ const LeftDrawer = (props) => {
             <div className={classes.toolbar} />
             <Divider />
             <Autocomplete
+                multiple
                 id="country-select-demo"
                 style={{ margin: '1em' }}
                 options={countries}

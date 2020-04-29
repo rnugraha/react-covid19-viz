@@ -18,7 +18,7 @@ const CountryProfile = (props) => {
             <TableHead>
                 <TableRow>
                     <TableCell>Variable</TableCell>
-                    <TableCell align="right">Count (#)</TableCell>
+                    <TableCell align="right">#</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>

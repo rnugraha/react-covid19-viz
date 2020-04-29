@@ -52,11 +52,12 @@ const formatData = (jsonData) => {
     return result;
 }
 
-const CasesPerCountry = ({ country }) => {
+const CasesPerCountry = ({ country, cases, newCases, weeks }) => {
     const classes = useStyles();
     const [timelineData, setTimelineData] = useState(null);
     const [countryProfiles, setCountryProfiles] = useState({});
     const [expanded, setExpanded] = React.useState(false);
+    const days = weeks * 7;
 
     const handleExpandClick = () => {
       setExpanded(!expanded);
@@ -76,7 +77,7 @@ const CasesPerCountry = ({ country }) => {
                         console.log('Error:', error);
                     }
                 )
-            fetch(`https://corona.lmao.ninja/v2/historical/${country.code}?lastdays=14`)
+            fetch(`https://corona.lmao.ninja/v2/historical/${country.code}?lastdays=${days}`)
                 .then(res => res.json())
                 .then(res => {
                     if (!res.message) {
@@ -93,16 +94,16 @@ const CasesPerCountry = ({ country }) => {
                     }
                 )
         }
-    }, [country])
+    }, [country, weeks])
 
     return (<React.Fragment>
         <Card className={classes.root}>
             <CountryHeader countryProfiles={countryProfiles} />
             <CardContent className={classes.content}>
-                <CasesChart data={timelineData} />
+                <CasesChart data={timelineData} options={cases} />
             </CardContent>
             <CardContent className={classes.content}>
-                <NewCasesChart data={timelineData} />
+                <NewCasesChart data={timelineData} options={newCases} />
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton

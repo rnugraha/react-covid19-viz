@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip, Area, Legend, CartesianGrid, XAxis, YAxis, ComposedChart, ResponsiveContainer } from 'recharts';
 
 const CasesChart = (props) => {
-    const { data } = props;
+    const { data, options } = props;
     const barMargin = { top: 5, right: 5, left: 5, bottom: 5 }
 
     return (<ResponsiveContainer width='100%' aspect={4.0 / 3.0}>
@@ -26,9 +26,9 @@ const CasesChart = (props) => {
             <YAxis />
             <Tooltip contentStyle={{ backgroundColor: '#FEFEFE' }} labelStyle={{ color: '#666' }} />
             <Legend />
-            <Area type="monotone" dataKey="cases" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
-            <Area type="monotone" dataKey="recovered" stroke="green" fillOpacity={1} fill="url(#colorPv)" />
-            <Area type="monotone" dataKey="deaths" stroke="red" fillOpacity={1} fill="url(#colorDt)" />
+            { options.cases ? <Area type="monotone" dataKey="cases" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" /> : '' }
+            { options.recovered ? <Area type="monotone" dataKey="recovered" stroke="green" fillOpacity={1} fill="url(#colorPv)" /> : '' }
+            { options.deaths ? <Area type="monotone" dataKey="deaths" stroke="red" fillOpacity={1} fill="url(#colorDt)" /> : '' }
         </ComposedChart>
     </ResponsiveContainer>)
 }

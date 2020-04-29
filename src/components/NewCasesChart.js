@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip, Line, Legend, CartesianGrid, XAxis, YAxis, ComposedChart, ResponsiveContainer } from 'recharts';
 
 const NewCasesChart = (props) => {
-    const { data } = props;
+    const { data, options } = props;
     const barMargin = { top: 5, right: 5, left: 5, bottom: 5 }
 
     return (<ResponsiveContainer width='100%' aspect={4.0 / 3.0}>
@@ -12,8 +12,8 @@ const NewCasesChart = (props) => {
             <YAxis />
             <Tooltip contentStyle={{ backgroundColor: '#FEFEFE' }} labelStyle={{ color: '#666' }} />
             <Legend />
-            <Line dataKey="newCases" stroke="#8884d8" fill="#888999" dot={false} />
-            <Line dataKey="newDeaths" stroke="red" fill="pink" dot={false} />
+            { options.newCases ? <Line dataKey="newCases" stroke="#8884d8" fill="#888999" dot={false} /> : '' }
+            { options.newDeaths ? <Line dataKey="newDeaths" stroke="red" fill="pink" dot={false} /> : '' }
         </ComposedChart>
     </ResponsiveContainer>);
 }

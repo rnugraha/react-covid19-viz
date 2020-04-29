@@ -24,10 +24,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const renderPlots = (countries) => {  
+const renderPlots = (countries, selectedCases, selectedNewCases, weeks) => {
   return countries.length ? countries.map(country => {
-    return (<Grid item xs={4} direction="row" justify="flex-start" alignItems="flex-start"> 
-      <CasesPerCountry country={country} />
+    return (<Grid item xs={4} key={country.code}>
+      <CasesPerCountry country={country} cases={selectedCases} newCases={selectedNewCases} weeks={weeks} />
     </Grid>)
   }) : '';
 }
@@ -36,9 +36,31 @@ function App() {
 
   const classes = useStyles();
   const [selectedCountries, setSelectedCountries] = useState([]);
+  const [selectedCases, setselectedCases] = useState({
+    cases: true,
+    recovered: true,
+    deaths: true,
+  });
+  const [selectedNewCases, setselectedNewCases] = useState({
+    newCases: true,
+    newDeaths: true,
+  });
+  const [weeks, setWeeks] = React.useState(3);
 
   const handleOnSelectCountry = (event, value, reason) => {
     setSelectedCountries(value);
+  }
+
+  const handleOnCasesChange = (event) => {
+    setselectedCases({ ...selectedCases, [event.target.name]: event.target.checked });
+  };
+
+  const handleOnDailyCasesChange = (event) => {
+    setselectedNewCases({ ...selectedNewCases, [event.target.name]: event.target.checked });
+  };
+
+  const handleOnWeeksChange = (event, value) => {
+    setWeeks(value)
   }
 
   return (
@@ -46,15 +68,23 @@ function App() {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-            COVID-19 Statistics
+            COVID-19 Country Visualisation
           </Typography>
         </Toolbar>
       </AppBar>
-      <LeftDrawer onSelectCountry={handleOnSelectCountry} />
+      <LeftDrawer
+        onSelectCountry={handleOnSelectCountry}
+        onCasesChange={handleOnCasesChange}
+        onDailyCasesChange={handleOnDailyCasesChange}
+        onWeeksChange={handleOnWeeksChange}
+        selectedCases={selectedCases}
+        selectedNewCases={selectedNewCases}
+        weeks={weeks}
+      />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Grid container spacing={3}>
-          {renderPlots(selectedCountries)}
+        <Grid container spacing={3} key='root'>
+          {renderPlots(selectedCountries, selectedCases, selectedNewCases, weeks)}
         </Grid>
       </main>
     </React.Fragment>

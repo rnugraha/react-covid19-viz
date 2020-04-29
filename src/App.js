@@ -8,6 +8,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
+import GitHub from '@material-ui/icons/GitHub';
+import IconButton from '@material-ui/core/IconButton';
+
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -21,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
     marginLeft: 240
+  },
+  title: {
+    flexGrow: 1
   },
 }));
 
@@ -67,9 +73,16 @@ function App() {
     <React.Fragment>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap className={classes.title}>
             COVID-19 Country Visualisation
           </Typography>
+          <IconButton
+            aria-label="github"
+            color="inherit"
+            href=""
+          >
+            <GitHub />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <LeftDrawer

@@ -12,6 +12,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import Link from '@material-ui/core/Link';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -78,6 +79,7 @@ const LeftDrawer = (props) => {
     const { newCases, newDeaths } = props.selectedNewCases;
     const { weeks } = props;
     const error = [cases, recovered, deaths].filter((v) => v).length < 1;
+
     return (
         <Drawer
             className={classes.drawer}
@@ -165,6 +167,12 @@ const LeftDrawer = (props) => {
                     />
                 </FormGroup>
             </FormControl>
+            <Divider />
+            <Typography className={classes.formControl} variant="body2" gutterBottom>                
+                Data source: <Link href="https://github.com/NovelCOVID/API">
+                    NovelCOVID API
+                </Link>
+            </Typography>
         </Drawer>
 
     );

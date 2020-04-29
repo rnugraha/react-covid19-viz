@@ -94,7 +94,7 @@ const CasesPerCountry = ({ country, cases, newCases, weeks }) => {
                     }
                 )
         }
-    }, [country, weeks])
+    }, [country, weeks, days])
 
     return (<React.Fragment>
         <Card className={classes.root}>

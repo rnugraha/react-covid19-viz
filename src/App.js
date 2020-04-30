@@ -35,7 +35,7 @@ const renderPlots = (countries, selectedCases, selectedNewCases, weeks) => {
     return (<Grid item xs={4} key={country.code}>
       <CasesPerCountry country={country} cases={selectedCases} newCases={selectedNewCases} weeks={weeks} />
     </Grid>)
-  }) : '';
+  }) : <Grid item xs={12} key='start'>Start by selecting a country</Grid>;
 }
 
 function App() {
@@ -79,7 +79,7 @@ function App() {
           <IconButton
             aria-label="github"
             color="inherit"
-            href=""
+            href="https://github.com/rnugraha/react-covid19-viz"
           >
             <GitHub />
           </IconButton>

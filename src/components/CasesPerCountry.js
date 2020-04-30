@@ -11,6 +11,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
+import CardHeader from '@material-ui/core/CardHeader';
+import { red } from '@material-ui/core/colors';
+import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
         transition: theme.transitions.create('transform', {
             duration: theme.transitions.duration.shortest,
         }),
+    },
+    avatar: {
+        backgroundColor: red[500],
     },
     expandOpen: {
         transform: 'rotate(180deg)',
@@ -57,24 +63,28 @@ const CasesPerCountry = ({ country, cases, newCases, weeks }) => {
     const [timelineData, setTimelineData] = useState(null);
     const [countryProfiles, setCountryProfiles] = useState({});
     const [expanded, setExpanded] = React.useState(false);
+    const [error, setError] = React.useState(null);
     const days = weeks * 7;
 
     const handleExpandClick = () => {
-      setExpanded(!expanded);
+        setExpanded(!expanded);
     };
-  
+
     useEffect(() => {
         if (country) {
             fetch('https://corona.lmao.ninja/v2/countries/' + country.code)
                 .then(res => res.json())
                 .then(res => {
-                    setCountryProfiles(res)
+                    if (!res.message) {
+                        setCountryProfiles(res)
+                    }
                 },
                     // Note: it's important to handle errors here
                     // instead of a catch() block so that we don't swallow
                     // exceptions from actual bugs in components.
                     (error) => {
                         console.log('Error:', error);
+                        setError(error);
                     }
                 )
             fetch(`https://corona.lmao.ninja/v2/historical/${country.code}?lastdays=${days}`)
@@ -82,8 +92,10 @@ const CasesPerCountry = ({ country, cases, newCases, weeks }) => {
                 .then(res => {
                     if (!res.message) {
                         setTimelineData(formatData(res.timeline));
+                        setError(null);
                     } else {
-                        console.log(res.message)
+                        console.log('Error:', res.message)
+                        setError(res.message);
                     }
                 },
                     // Note: it's important to handle errors here
@@ -91,10 +103,25 @@ const CasesPerCountry = ({ country, cases, newCases, weeks }) => {
                     // exceptions from actual bugs in components.
                     (error) => {
                         console.log('Error:', error);
+                        setError(error);
                     }
                 )
         }
     }, [country, weeks, days])
+
+    if (error) {
+        return (<Card className={classes.root}>
+            <CardHeader
+                avatar={
+                    <Avatar aria-label="recipe" className={classes.avatar}>
+                        NA
+                    </Avatar>
+                }
+                title='No Data'
+                subheader='Country doesnt have data or information'
+            />
+        </Card>);
+    }
 
     return (<React.Fragment>
         <Card className={classes.root}>

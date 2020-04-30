@@ -13,6 +13,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import Link from '@material-ui/core/Link';
+import { FormHelperText } from '@material-ui/core';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -91,10 +92,10 @@ const LeftDrawer = (props) => {
         >
             <div className={classes.toolbar} />
             <Divider />
+            <FormControl className={classes.formControl}>
             <Autocomplete
                 multiple
                 id="country-select-demo"
-                style={{ margin: '1em' }}
                 options={countries}
                 classes={{
                     option: classes.option,
@@ -111,7 +112,7 @@ const LeftDrawer = (props) => {
                 renderInput={(params) => (
                     <TextField
                         {...params}
-                        label="Choose a country"
+                        label="Select a country"
                         variant="outlined"
                         inputProps={{
                             ...params.inputProps,
@@ -120,6 +121,8 @@ const LeftDrawer = (props) => {
                     />
                 )}
             />
+            <FormHelperText>You may select >1 countries</FormHelperText>
+            </FormControl>
             <Divider />
             <FormControl className={classes.formControl}>
                 <Typography gutterBottom>

@@ -2,6 +2,10 @@
 
 Data visualisation of COVID-19 per country using React and Recharts.
 
+Demo: https://react-covid19-viz.herokuapp.com/
+
+![sshot](https://user-images.githubusercontent.com/2835281/80766293-63b48280-8b45-11ea-89b7-9c5cf7b0ec08.png)
+
 Data is provided by [NovelCOVID API](https://github.com/NovelCOVID/API)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

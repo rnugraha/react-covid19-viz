@@ -9,8 +9,8 @@ const CasesChart = (props) => {
         <ComposedChart data={data} margin={barMargin}>
             <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#3f51b5" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#3f51b5" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="green" stopOpacity={0.8} />
@@ -25,8 +25,8 @@ const CasesChart = (props) => {
             <XAxis stroke="grey" padding={{ left: 5, right: 2 }} dataKey="date" />
             <YAxis />
             <Tooltip contentStyle={{ backgroundColor: '#FEFEFE' }} labelStyle={{ color: '#666' }} />
-            <Legend />
-            { options.cases ? <Area type="monotone" dataKey="cases" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" /> : '' }
+            <Legend verticalAlign="top" height={36} />
+            { options.cases ? <Area type="monotone" dataKey="cases" stroke="#3f51b5" fillOpacity={1} fill="url(#colorUv)" /> : '' }
             { options.recovered ? <Area type="monotone" dataKey="recovered" stroke="green" fillOpacity={1} fill="url(#colorPv)" /> : '' }
             { options.deaths ? <Area type="monotone" dataKey="deaths" stroke="red" fillOpacity={1} fill="url(#colorDt)" /> : '' }
         </ComposedChart>

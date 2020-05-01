@@ -8,7 +8,7 @@ const NewCasesChart = (props) => {
     return (<ResponsiveContainer width='100%' aspect={4.0 / 3.0}>
         <BarChart width={400} height={250} data={data} margin={barMargin}>
             <CartesianGrid stroke="#ccc" strokeDasharray="2 1" />
-            <XAxis stroke="grey" padding={{ left: 5, right: 2 }} dataKey="date" />
+            <XAxis stroke="grey" padding={{ left: 1, right: 2 }} dataKey="date" />
             <YAxis />
             <Tooltip contentStyle={{ backgroundColor: '#FEFEFE' }} labelStyle={{ color: '#666' }} />
             <Legend verticalAlign="top" height={36} />

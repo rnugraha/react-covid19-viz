@@ -49,8 +49,8 @@ const formatData = (jsonData) => {
         // const entry = { date: key, cases: Math.log(value), deaths: Math.log(deaths[key]), recovered: Math.log(recovered[key]) };
         const entry = { date: key, cases: value, deaths: deaths[key], recovered: recovered[key] };
         if (prevEntry) {
-            entry.newCases = entry.cases - prevEntry.cases;
-            entry.newDeaths = entry.deaths - prevEntry.deaths;
+            entry.newCases = entry.cases > prevEntry.cases ? entry.cases - prevEntry.cases : 0;
+            entry.newDeaths = entry.deaths - prevEntry.deaths ? entry.deaths - prevEntry.deaths : 0;
         }
         prevEntry = entry;
         result.push(entry)

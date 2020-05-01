@@ -64,7 +64,6 @@ function countryToFlag(isoCode) {
         : isoCode;
 }
 
-
 const LeftDrawer = (props) => {
     const classes = useStyles();
     const handleOnCountryChange = (event, value, reason) => {

@@ -12,7 +12,7 @@ const NewCasesChart = (props) => {
             <YAxis />
             <Tooltip contentStyle={{ backgroundColor: '#FEFEFE' }} labelStyle={{ color: '#666' }} />
             <Legend verticalAlign="top" height={36} />
-            <Brush dataKey="date" height={30} stroke="#8884d8" />
+            {data ? <Brush dataKey="date" height={30} stroke="#8884d8" /> : ''}
             {options.newCases ? <Bar dataKey="newCases" fill="#3f51b5" dot={false} /> : ''}
             {options.newDeaths ? <Bar dataKey="newDeaths" stroke="red" fill="red" dot={false} /> : ''}
         </BarChart>

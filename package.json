@@ -1,6 +1,8 @@
 {
   "name": "react-covid19-viz",
   "version": "0.1.0",
+  "author": "Riza Nugraha <rnugraha@gmail.com>",
+  "homepage": "https://github.com/rnugraha/react-covid19-viz",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.11",

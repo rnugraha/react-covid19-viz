@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import { countries } from './countries'
@@ -14,30 +14,30 @@ import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import Link from '@material-ui/core/Link';
 import { FormHelperText } from '@material-ui/core';
+import Hidden from '@material-ui/core/Hidden';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
-    appBar: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
     drawerPaper: {
         width: drawerWidth,
     },
+    drawer: {
+        [theme.breakpoints.up('sm')]: {
+            width: drawerWidth,
+            flexShrink: 0,
+        },
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
+    },
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
-    content: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
-        padding: theme.spacing(3),
-    },
     option: {
         fontSize: 15,
         '& > span': {
@@ -65,7 +65,9 @@ function countryToFlag(isoCode) {
 }
 
 const LeftDrawer = (props) => {
+    const { window } = props;
     const classes = useStyles();
+    const theme = useTheme();
     const handleOnCountryChange = (event, value, reason) => {
         props.onSelectCountry(event, value, reason)
     };
@@ -80,18 +82,10 @@ const LeftDrawer = (props) => {
     const { weeks } = props;
     const error = [cases, recovered, deaths].filter((v) => v).length < 1;
 
-    return (
-        <Drawer
-            className={classes.drawer}
-            variant="permanent"
-            classes={{
-                paper: classes.drawerPaper,
-            }}
-            anchor="left"
-        >
-            <div className={classes.toolbar} />
-            <Divider />
-            <FormControl className={classes.formControl}>
+    const drawer = (<>
+        <div className={classes.toolbar} />
+        <Divider />
+        <FormControl className={classes.formControl}>
             <Autocomplete
                 multiple
                 id="country-select-demo"
@@ -121,62 +115,96 @@ const LeftDrawer = (props) => {
                 )}
             />
             <FormHelperText>You may select >1 countries</FormHelperText>
-            </FormControl>
-            <Divider />
-            <FormControl className={classes.formControl}>
-                <Typography gutterBottom>
-                    Show data in # of weeks
+        </FormControl>
+        <Divider />
+        <FormControl className={classes.formControl}>
+            <Typography gutterBottom>
+                Show data in # of weeks
                 </Typography>
-                <Slider
-                    getAriaValueText={valuetext}
-                    aria-labelledby="discrete-slider"
-                    valueLabelDisplay="auto"
-                    step={1}
-                    marks={true}
-                    min={1}
-                    max={12}
-                    value={weeks}
-                    onChange={props.onWeeksChange}
+            <Slider
+                getAriaValueText={valuetext}
+                aria-labelledby="discrete-slider"
+                valueLabelDisplay="auto"
+                step={1}
+                marks={true}
+                min={1}
+                max={12}
+                value={weeks}
+                onChange={props.onWeeksChange}
+            />
+        </FormControl>
+        <FormControl component="fieldset" error={error} className={classes.formControl} required>
+            <FormLabel component="legend">Total accumulation</FormLabel>
+            <FormGroup>
+                <FormControlLabel
+                    control={<Checkbox checked={cases} onChange={handleOnCasesChange} name="cases" />}
+                    label="Cases"
                 />
-            </FormControl>
-            <FormControl component="fieldset" error={error} className={classes.formControl} required>
-                <FormLabel component="legend">Total accumulation</FormLabel>
-                <FormGroup>
-                    <FormControlLabel
-                        control={<Checkbox checked={cases} onChange={handleOnCasesChange} name="cases" />}
-                        label="Cases"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox checked={recovered} onChange={handleOnCasesChange} name="recovered" />}
-                        label="Recovered"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox checked={deaths} onChange={handleOnCasesChange} name="deaths" />}
-                        label="Deaths"
-                    />
-                </FormGroup>
-            </FormControl>
-            <FormControl component="fieldset" error={error} className={classes.formControl} required>
-                <FormLabel component="legend">Daily cases</FormLabel>
-                <FormGroup>
-                    <FormControlLabel
-                        control={<Checkbox checked={newCases} onChange={handleOnDailyCasesChange} name="newCases" />}
-                        label="New cases"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox checked={newDeaths} onChange={handleOnDailyCasesChange} name="newDeaths" />}
-                        label="New deaths"
-                    />
-                </FormGroup>
-            </FormControl>
-            <Divider />
-            <Typography className={classes.formControl} variant="body2" gutterBottom>                
-                Data source: <Link href="https://github.com/NovelCOVID/API">
-                    NovelCOVID API
+                <FormControlLabel
+                    control={<Checkbox checked={recovered} onChange={handleOnCasesChange} name="recovered" />}
+                    label="Recovered"
+                />
+                <FormControlLabel
+                    control={<Checkbox checked={deaths} onChange={handleOnCasesChange} name="deaths" />}
+                    label="Deaths"
+                />
+            </FormGroup>
+        </FormControl>
+        <FormControl component="fieldset" error={error} className={classes.formControl} required>
+            <FormLabel component="legend">Daily cases</FormLabel>
+            <FormGroup>
+                <FormControlLabel
+                    control={<Checkbox checked={newCases} onChange={handleOnDailyCasesChange} name="newCases" />}
+                    label="New cases"
+                />
+                <FormControlLabel
+                    control={<Checkbox checked={newDeaths} onChange={handleOnDailyCasesChange} name="newDeaths" />}
+                    label="New deaths"
+                />
+            </FormGroup>
+        </FormControl>
+        <Divider />
+        <Typography className={classes.formControl} variant="body2" gutterBottom>
+            Data source: <Link href="https://github.com/NovelCOVID/API">
+                NovelCOVID API
                 </Link>
-            </Typography>
-        </Drawer>
+        </Typography>
+    </>);
+    
+    const container = window !== undefined ? () => window().document.body : undefined;
 
+    return (
+        <nav className={classes.drawer} aria-label="country selection panel">
+            {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+            <Hidden smUp implementation="css">
+                <Drawer
+                    container={container}
+                    variant="temporary"
+                    anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                    open={props.mobileOpen}
+                    onClose={props.onClose}
+                    classes={{
+                        paper: classes.drawerPaper,
+                    }}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                >
+                    {drawer}
+                </Drawer>
+            </Hidden>
+            <Hidden xsDown implementation="css">
+                <Drawer
+                    classes={{
+                        paper: classes.drawerPaper,
+                    }}
+                    variant="permanent"
+                    open
+                >
+                    {drawer}
+                </Drawer>
+            </Hidden>
+        </nav>
     );
 }
 

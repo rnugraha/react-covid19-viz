@@ -1,42 +1,43 @@
 import React, { useState } from 'react';
-import './App.css';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
 import CasesPerCountry from './components/CasesPerCountry';
 import Typography from '@material-ui/core/Typography';
 import LeftDrawer from './components/LeftDrawer';
-import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-
 import GitHub from '@material-ui/icons/GitHub';
 import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
   appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
-    marginLeft: 240
   },
   title: {
     flexGrow: 1
   },
 }));
-
-const renderPlots = (countries, selectedCases, selectedNewCases, weeks) => {
-  return countries.length ? countries.map(country => {
-    return (<Grid item xs={4} key={country.code}>
-      <CasesPerCountry country={country} cases={selectedCases} newCases={selectedNewCases} weeks={weeks} />
-    </Grid>)
-  }) : <Grid item xs={12} key='start'>Start by selecting a country</Grid>;
-}
 
 function App() {
 
@@ -52,6 +53,11 @@ function App() {
     newDeaths: true,
   });
   const [weeks, setWeeks] = React.useState(3);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   const handleOnSelectCountry = (event, value, reason) => {
     setSelectedCountries(value);
@@ -68,13 +74,31 @@ function App() {
   const handleOnWeeksChange = (event, value) => {
     setWeeks(value)
   }
+  
+  const renderPlots = (countries, selectedCases, selectedNewCases, weeks) => {
+    return countries.length ? countries.map(country => {
+      return (<Grid item xs={12} lg={4} md={6} key={country.code}>
+        <CasesPerCountry country={country} cases={selectedCases} newCases={selectedNewCases} weeks={weeks} />
+      </Grid>)
+    }) : <Grid item xs={12} key='start'>Start by selecting a country</Grid>;
+  }
 
   return (
-    <React.Fragment>
+    <div className={classes.root}>
+      <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap className={classes.title}>
-            COVID-19 Country Visualisation
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            COVID-19 Country Viz
           </Typography>
           <IconButton
             aria-label="github"
@@ -90,9 +114,11 @@ function App() {
         onCasesChange={handleOnCasesChange}
         onDailyCasesChange={handleOnDailyCasesChange}
         onWeeksChange={handleOnWeeksChange}
+        onClose={handleDrawerToggle}
         selectedCases={selectedCases}
         selectedNewCases={selectedNewCases}
         weeks={weeks}
+        mobileOpen={mobileOpen}
       />
       <main className={classes.content}>
         <div className={classes.toolbar} />
@@ -100,7 +126,7 @@ function App() {
           {renderPlots(selectedCountries, selectedCases, selectedNewCases, weeks)}
         </Grid>
       </main>
-    </React.Fragment>
+    </div>
   );
 }
 

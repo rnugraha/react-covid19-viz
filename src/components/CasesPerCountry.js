@@ -17,7 +17,6 @@ import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxWidth: 450,
     },
     content: {
         fontSize: 11

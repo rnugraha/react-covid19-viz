@@ -61,7 +61,7 @@ const CasesPerCountry = ({ country, cases, newCases, weeks }) => {
     const classes = useStyles();
     const [timelineData, setTimelineData] = useState(null);
     const [countryProfiles, setCountryProfiles] = useState({});
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = React.useState(true);
     const [error, setError] = React.useState(null);
     const days = weeks * 7;
 

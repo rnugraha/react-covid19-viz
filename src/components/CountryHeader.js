@@ -20,8 +20,8 @@ const CountryHeader = ({ countryProfiles }) => {
                     className={classes.avatar} 
                     src={(countryProfiles.countryInfo || {}).flag} />
             }
-            title={countryProfiles.country}
-            subheader={`${countryProfiles.continent}`}
+            title={`${countryProfiles.country } - ${countryProfiles.continent}`}
+            subheader={`${countryProfiles.cases} cases, ${countryProfiles.deaths} deaths, ${countryProfiles.recovered} recovered`}
         />
     </React.Fragment>);
 }

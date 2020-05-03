@@ -9,12 +9,12 @@ const NewCasesChart = (props) => {
         <BarChart width={400} height={250} data={data} margin={barMargin}>
             <CartesianGrid stroke="#ccc" strokeDasharray="2 1" />
             <XAxis stroke="grey" padding={{ left: 1, right: 2 }} dataKey="date" />
-            <YAxis />
+            <YAxis label={{ value: '# of cases per day', angle: -90, position: 'insideLeft' }} />
             <Tooltip contentStyle={{ backgroundColor: '#FEFEFE' }} labelStyle={{ color: '#666' }} />
             <Legend verticalAlign="top" height={36} />
             {data ? <Brush dataKey="date" height={30} stroke="#8884d8" /> : ''}
-            {options.newCases ? <Bar dataKey="newCases" fill="#3f51b5" dot={false} /> : ''}
-            {options.newDeaths ? <Bar dataKey="newDeaths" stroke="red" fill="red" dot={false} /> : ''}
+            {options.newCases ? <Bar dataKey="newCases" fill="#3f51b5" dot={false} name="Daily cases" /> : ''}
+            {options.newDeaths ? <Bar dataKey="newDeaths" stroke="red" fill="red" dot={false} name="Daily deaths" /> : ''}
         </BarChart>
     </ResponsiveContainer>);
 }

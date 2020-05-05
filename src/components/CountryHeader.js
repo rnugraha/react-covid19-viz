@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
 
 const CountryHeader = ({ countryProfiles }) => {
     const classes = useStyles();
+    const fCases = new Intl.NumberFormat('en-GB').format(countryProfiles.cases)
+    const fDeaths = new Intl.NumberFormat('en-GB').format(countryProfiles.deaths)
+    const fRecovered = new Intl.NumberFormat('en-GB').format(countryProfiles.recovered)
     return (<React.Fragment>
         <CardHeader
             avatar={
@@ -21,7 +24,7 @@ const CountryHeader = ({ countryProfiles }) => {
                     src={(countryProfiles.countryInfo || {}).flag} />
             }
             title={`${countryProfiles.country } - ${countryProfiles.continent}`}
-            subheader={`${countryProfiles.cases} cases, ${countryProfiles.deaths} deaths, ${countryProfiles.recovered} recovered`}
+            subheader={`${fCases} cases, ${fDeaths} deaths, ${fRecovered} recovered`}
         />
     </React.Fragment>);
 }

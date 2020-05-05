@@ -23,8 +23,16 @@ const CasesChart = (props) => {
             </defs>
             <CartesianGrid stroke="#ccc" strokeDasharray="2 1" />
             <XAxis stroke="grey" padding={{ left: 1, right: 2 }} dataKey="date" />
-            <YAxis label={{ value: 'Total cases', angle: -90, position: 'insideLeft' }} />
-            <Tooltip contentStyle={{ backgroundColor: '#FEFEFE' }} labelStyle={{ color: '#666' }} />
+            <YAxis 
+                label={{ value: 'Total cases', angle: -90, position: 'insideLeft' }} 
+                tickFormatter={tick => {
+                    return new Intl.NumberFormat('en-GB', { notation: "compact" , compactDisplay: "short" }).format(tick);
+                }}
+            />
+            <Tooltip 
+                contentStyle={{ backgroundColor: '#FEFEFE' }} labelStyle={{ color: '#666' }} 
+                formatter={(value, name, props) => { return new Intl.NumberFormat('en-GB').format(value) }}
+            />
             <Legend verticalAlign="top" height={36} />
             { options.cases ? <Area type="monotone" dataKey="cases" stroke="#3f51b5" fillOpacity={1} fill="url(#colorUv)" /> : '' }
             { options.recovered ? <Area type="monotone" dataKey="recovered" stroke="green" fillOpacity={1} fill="url(#colorPv)" /> : '' }

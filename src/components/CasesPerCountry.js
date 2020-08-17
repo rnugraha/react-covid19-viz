@@ -40,13 +40,17 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const formatData = (jsonData) => {
+const formatData = (jsonData, isLogarithmic) => {
     const { cases, deaths, recovered } = jsonData;
     const result = [];
     let prevEntry = null;
     for (let [key, value] of Object.entries(cases)) {
-        // const entry = { date: key, cases: Math.log(value), deaths: Math.log(deaths[key]), recovered: Math.log(recovered[key]) };
         const entry = { date: key, cases: value, deaths: deaths[key], recovered: recovered[key] };
+        if (isLogarithmic) {
+            entry.cases = Math.log(value)
+            entry.deaths = Math.log(deaths[key])
+            entry.recovered = Math.log(recovered[key])
+        }
         if (prevEntry) {
             entry.newCases = entry.cases > prevEntry.cases ? entry.cases - prevEntry.cases : 0;
             entry.newDeaths = entry.deaths > prevEntry.deaths ? entry.deaths - prevEntry.deaths : 0;
@@ -57,7 +61,7 @@ const formatData = (jsonData) => {
     return result;
 }
 
-const CasesPerCountry = ({ country, cases, newCases, weeks }) => {
+const CasesPerCountry = ({ country, cases, newCases, weeks, isLogarithmic }) => {
     const classes = useStyles();
     const [timelineData, setTimelineData] = useState(null);
     const [countryProfiles, setCountryProfiles] = useState({});
@@ -90,7 +94,7 @@ const CasesPerCountry = ({ country, cases, newCases, weeks }) => {
                 .then(res => res.json())
                 .then(res => {
                     if (!res.message) {
-                        setTimelineData(formatData(res.timeline));
+                        setTimelineData(formatData(res.timeline, isLogarithmic));
                         setError(null);
                     } else {
                         console.log('Error:', res.message)
@@ -106,7 +110,7 @@ const CasesPerCountry = ({ country, cases, newCases, weeks }) => {
                     }
                 )
         }
-    }, [country, weeks, days])
+    }, [country, weeks, days, isLogarithmic])
 
     if (error) {
         return (<Card className={classes.root}>

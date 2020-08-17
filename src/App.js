@@ -52,12 +52,13 @@ function App() {
     newCases: true,
     newDeaths: true,
   });
-  const [weeks, setWeeks] = React.useState(3);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [weeks, setWeeks] = useState(3);
+  const [logarithmic, setLogarithmic] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+    setMobileOpen(!mobileOpen)
+  }
 
   const handleOnSelectCountry = (event, value, reason) => {
     setSelectedCountries(value);
@@ -74,11 +75,15 @@ function App() {
   const handleOnWeeksChange = (event, value) => {
     setWeeks(value)
   }
+
+  const handleLogarithmicChange = (event, value) => {
+    setLogarithmic(value)
+  }
   
-  const renderPlots = (countries, selectedCases, selectedNewCases, weeks) => {
+  const renderPlots = (countries, selectedCases, selectedNewCases, weeks, logarithmic) => {
     return countries.length ? countries.map(country => {
       return (<Grid item xs={12} lg={4} md={6} key={country.code}>
-        <CasesPerCountry country={country} cases={selectedCases} newCases={selectedNewCases} weeks={weeks} />
+        <CasesPerCountry country={country} cases={selectedCases} newCases={selectedNewCases} weeks={weeks} isLogarithmic={logarithmic}/>
       </Grid>)
     }) : <Grid item xs={12} key='start'>Start by selecting a country</Grid>;
   }
@@ -114,16 +119,18 @@ function App() {
         onCasesChange={handleOnCasesChange}
         onDailyCasesChange={handleOnDailyCasesChange}
         onWeeksChange={handleOnWeeksChange}
+        onLogarithmicChange={handleLogarithmicChange}
         onClose={handleDrawerToggle}
         selectedCases={selectedCases}
         selectedNewCases={selectedNewCases}
         weeks={weeks}
         mobileOpen={mobileOpen}
+        logarithmic={logarithmic}
       />
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Grid container spacing={3} key='root'>
-          {renderPlots(selectedCountries, selectedCases, selectedNewCases, weeks)}
+          {renderPlots(selectedCountries, selectedCases, selectedNewCases, weeks, logarithmic)}
         </Grid>
       </main>
     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import { countries } from './countries'
@@ -15,6 +15,8 @@ import Slider from '@material-ui/core/Slider';
 import Link from '@material-ui/core/Link';
 import { FormHelperText } from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
+import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -63,6 +65,40 @@ function countryToFlag(isoCode) {
             .replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
         : isoCode;
 }
+
+const AntSwitch = withStyles((theme) => ({
+    root: {
+        width: 28,
+        height: 16,
+        padding: 0,
+        display: 'flex',
+    },
+    switchBase: {
+        padding: 2,
+        color: theme.palette.grey[500],
+        '&$checked': {
+            transform: 'translateX(12px)',
+            color: theme.palette.common.white,
+            '& + $track': {
+                opacity: 1,
+                backgroundColor: theme.palette.primary.main,
+                borderColor: theme.palette.primary.main,
+            },
+        },
+    },
+    thumb: {
+        width: 12,
+        height: 12,
+        boxShadow: 'none',
+    },
+    track: {
+        border: `1px solid ${theme.palette.grey[500]}`,
+        borderRadius: 16 / 2,
+        opacity: 1,
+        backgroundColor: theme.palette.common.white,
+    },
+    checked: {},
+}))(Switch);
 
 const LeftDrawer = (props) => {
     const { window } = props;
@@ -114,12 +150,24 @@ const LeftDrawer = (props) => {
                     />
                 )}
             />
-            <FormHelperText>You may select >1 countries</FormHelperText>
+            <FormHelperText>You may select &gt;1 countries</FormHelperText>
+        </FormControl>
+        <Divider />
+        <FormControl className={classes.formControl}>
+            <Typography component="div">
+                <Grid component="label" container alignItems="center" spacing={1}>
+                    <Grid item>Linear</Grid>
+                    <Grid item>
+                        <AntSwitch checked={props.logarithmic} onChange={props.onLogarithmicChange} name="checkedC" />
+                    </Grid>
+                    <Grid item>Logarithmic</Grid>
+                </Grid>
+            </Typography>
         </FormControl>
         <Divider />
         <FormControl className={classes.formControl}>
             <Typography gutterBottom>
-                Show data in # of weeks
+                Show data in {weeks} weeks
                 </Typography>
             <Slider
                 getAriaValueText={valuetext}
@@ -128,7 +176,7 @@ const LeftDrawer = (props) => {
                 step={1}
                 marks={true}
                 min={1}
-                max={12}
+                max={24}
                 value={weeks}
                 onChange={props.onWeeksChange}
             />
@@ -170,7 +218,7 @@ const LeftDrawer = (props) => {
                 </Link>
         </Typography>
     </>);
-    
+
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (

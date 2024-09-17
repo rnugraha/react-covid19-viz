@@ -75,7 +75,7 @@ const CasesPerCountry = ({ country, cases, newCases, weeks, isLogarithmic }) => 
 
     useEffect(() => {
         if (country) {
-            fetch('https://corona.lmao.ninja/v2/countries/' + country.code)
+            fetch('https://disease.sh/v3/covid-19/countries/' + country.code)
                 .then(res => res.json())
                 .then(res => {
                     if (!res.message) {
@@ -90,8 +90,8 @@ const CasesPerCountry = ({ country, cases, newCases, weeks, isLogarithmic }) => 
                         setError(error);
                     }
                 )
-            fetch(`https://corona.lmao.ninja/v2/historical/${country.code}?lastdays=${days}`)
-                .then(res => res.json())
+            fetch(`https://disease.sh/v3/covid-19/historical/${country.code}?lastdays=${days}`)
+            .then(res => res.json())
                 .then(res => {
                     if (!res.message) {
                         setTimelineData(formatData(res.timeline, isLogarithmic));

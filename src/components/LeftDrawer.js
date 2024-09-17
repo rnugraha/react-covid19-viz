@@ -213,8 +213,8 @@ const LeftDrawer = (props) => {
         </FormControl>
         <Divider />
         <Typography className={classes.formControl} variant="body2" gutterBottom>
-            Data source: <Link href="https://github.com/NovelCOVID/API">
-                NovelCOVID API
+            Data source: <Link href="https://disease.sh/">
+            Open Disease Data API
                 </Link>
         </Typography>
     </>);

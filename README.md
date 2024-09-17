@@ -2,7 +2,7 @@
 
 Data visualisation of COVID-19 per country using React and Recharts.
 
-Demo: https://react-covid19-e2j7s0myj-riza-nugrahas-projects.vercel.app/
+Demo: https://react-covid19-viz.vercel.app/
 
 ![sshot](https://user-images.githubusercontent.com/2835281/80766293-63b48280-8b45-11ea-89b7-9c5cf7b0ec08.png)
 
